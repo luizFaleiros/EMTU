@@ -1,12 +1,12 @@
 import telegram
 import time
-from src.conf.Telegram.Settings import TOKEN
-from src.conf.EMTU.Response import Response
+from conf.Telegram.Settings import TOKEN
+from conf.EMTU.Response import Response
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 
 def getLocation(bot, update):
-    message: telegram.Message = update.effective_message
+    message = update.effective_message
     latitude = message.location.latitude
     longitude = message.location.longitude
     r = Response()
@@ -32,10 +32,11 @@ def ajuda(bot, update):
     response_message = "/ajuda Mostra todos os comandos aceitos pelo bot\n"
     response_message += "/linha enviando o comando mais o numero da linha para receber quantos onibus estao ativos na linha\n"
     response_message += "Para saber os onibus quer passam no ponto em que se encontra, apenas mande sua posição\n"
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=response_message
-    )
+    # bot.send_message(
+    #     chat_id=update.message.chat_id,
+    #     text=response_message
+    # )
+    #bot.send_location(chat_id=update.message.chat_id, latitude='0', longitude='0')
 
 
 def getBus(bot, update, args):

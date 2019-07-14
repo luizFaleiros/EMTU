@@ -1,4 +1,4 @@
-from src.conf.EMTU.Settings import URL, SENHA, USUARIO
+from conf.EMTU.Settings import URL, SENHA, USUARIO
 
 import requests
 from requests.auth import HTTPBasicAuth

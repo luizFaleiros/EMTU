@@ -1,4 +1,4 @@
-from src.conf.EMTU.Requisitions import Requisistions
+from conf.EMTU.Requisitions import Requisistions
 from geopy.geocoders import Nominatim
 
 
