@@ -37,4 +37,3 @@ class Requisistions(object):
         else:
             response = None
         return response
-

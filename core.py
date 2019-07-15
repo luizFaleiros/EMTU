@@ -11,12 +11,9 @@ def getLocation(bot, update):
     longitude = message.location.longitude
     r = Response()
     response = r.ResponsePosition(longitude, latitude)
-    for i in range(len(response)):
-        bot.send_message(
+    bot.send_message(
             chat_id=update.message.chat_id,
-            text=response[i]
-        )
-        time.sleep(0.5)
+            text=response)
 
 
 def start(bot, update):
@@ -32,19 +29,31 @@ def ajuda(bot, update):
     response_message = "/ajuda Mostra todos os comandos aceitos pelo bot\n"
     response_message += "/linha enviando o comando mais o numero da linha para receber quantos onibus estao ativos na linha\n"
     response_message += "Para saber os onibus quer passam no ponto em que se encontra, apenas mande sua posição\n"
-    # bot.send_message(
-    #     chat_id=update.message.chat_id,
-    #     text=response_message
-    # )
-    #bot.send_location(chat_id=update.message.chat_id, latitude='0', longitude='0')
+    bot.send_message(
+         chat_id=update.message.chat_id,
+         text=response_message
+    )
 
 
 def getBus(bot, update, args):
     procura = args[0]
     r = Response()
-    response = r.ResponseLine(procura)
+    msg, ida, volta = r.ResponseLine(procura)
     bot.send_message(
-        chat_id=update.message.chat_id, text=response)
+        chat_id=update.message.chat_id, text=msg)
+    if (len(ida) > 0):
+        bot.send_message(chat_id=update.message.chat_id, text="Posição dos onibus que estão indo")
+        for i in range(len(ida)):
+            bot.send_location(chat_id=update.message.chat_id, latitude=f"{ida[i][0]}", longitude=f"{ida[i][1]}")
+    else:
+        bot.send_message(chat_id=update.message.chat_id, text="Não ha ônibus nesse sentido no momento")
+
+    if (len(volta) > 0):
+        bot.send_message(chat_id=update.message.chat_id, text="Posição dos onibus que estão Voltando")
+        for i in range(len(volta)):
+            bot.send_location(chat_id=update.message.chat_id, latitude=f"{volta[i][0]}", longitude=f"{volta[i][1]}")
+    else:
+        bot.send_message(chat_id=update.message.chat_id, text="Não ha ônibus nesse sentido no momento")
 
 
 def unknown(bot, update):
@@ -69,9 +78,6 @@ def main():
     )
     dispatcher.add_handler(
         MessageHandler(Filters.command, unknown)
-    )
-    dispatcher.add_handler(
-        MessageHandler(Filters.location, getLocation)
     )
     dispatcher.add_handler(
         MessageHandler(Filters.location, getLocation)
